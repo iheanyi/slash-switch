@@ -25,7 +25,6 @@ func SwitchHandler(w http.ResponseWriter, r *http.Request) {
 	daysUntilRelease := releaseDate.Sub(currentDate).Hours() / 24
 	log.Printf("Days Until Nintendo Switch Release: %v", daysUntilRelease)
 	log.Print("Posting to this body")
-	w.WriteHeader(http.StatusOK)
 	releaseString := fmt.Sprintf("There are *%v days* until the Nintendo Switch is released.", daysUntilRelease)
 
 	m := &MessageResponse{
@@ -33,17 +32,9 @@ func SwitchHandler(w http.ResponseWriter, r *http.Request) {
 		ResponseType: "in_channel",
 	}
 
-	/*response, err := json.Marshal(m)
-	if err != nil {
-		log.Printf("Something went wrong! %v", err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}*/
-
 	log.Print(m)
-	//w.Write(response)
-
-	w.Header().Set("Content-type", "application/json")
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(m)
 }
 
