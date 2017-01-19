@@ -22,9 +22,9 @@ func SwitchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	currentDate := time.Now()
-	releaseDate := time.Date(2017, 5, 3, 0, 0, 0, 0, estTimezone)
-	daysUntilRelease := math.Ceil(releaseDate.Sub(currentDate).Hours() / 24)
-	log.Printf("Days Until Nintendo Switch Release: %v", math.Ceil(daysUntilRelease))
+	releaseDate := time.Date(2017, 3, 3, 0, 0, 0, 0, estTimezone)
+	daysUntilRelease := math.Floor(releaseDate.Sub(currentDate).Hours() / 24)
+	log.Printf("Days Until Nintendo Switch Release: %v", daysUntilRelease)
 	log.Print("Posting to this body")
 	releaseString := fmt.Sprintf("There are *%v days* until the Nintendo Switch is released.", daysUntilRelease)
 
