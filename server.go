@@ -24,8 +24,11 @@ func SwitchHandler(w http.ResponseWriter, r *http.Request) {
 	currentDate := time.Now()
 	releaseDate := time.Date(2017, 3, 3, 0, 0, 0, 0, estTimezone)
 	daysUntilRelease := math.Floor(releaseDate.Sub(currentDate).Hours() / 24)
-	log.Printf("Days Until Nintendo Switch Release: %v", daysUntilRelease)
-	log.Print("Posting to this body")
+
+	if daysUntilRelease < 0 {
+		daysUntilRelease = 0
+	}
+
 	releaseString := fmt.Sprintf("There are *%v days* until the Nintendo Switch is released.", daysUntilRelease)
 
 	m := &MessageResponse{
@@ -33,7 +36,6 @@ func SwitchHandler(w http.ResponseWriter, r *http.Request) {
 		ResponseType: "in_channel",
 	}
 
-	log.Print(m)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(m)
